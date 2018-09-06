@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">GS Bookstore</string>
+
+    <string name="book_1_name">The Ruin: A Novel</string>
+    <string name="book_1_price">13</string>
+    <string name="book_1_qty">15</string>
+    <string name="book_1_supplier">Amazon</string>
+    <string name="book_1_supplier_phone">800&#8211;280&#8211;4331</string>
+
+    <string name="book_2_name">Indianapolis</string>
+    <string name="book_2_price">21</string>
+    <string name="book_2_qty">20</string>
+    <string name="book_2_supplier">Brooks Books</string>
+    <string name="book_2_supplier_phone">800&#8211;220&#8211;1111</string>
+
+    <string name="book_3_name">What We Were Promised</string>
+    <string name="book_3_price">22</string>
+    <string name="book_3_qty">10</string>
+    <string name="book_3_supplier">BN Online</string>
+    <string name="book_3_supplier_phone">866&#8211;982&#8211;3299</string>
+
+    <string name="log_db_records">DB Records</string>
+    <string name="log_total_books_count">Total books count:</string>
+
+    <string name="log_db_rec_id">ID:</string>
+    <string name="log_db_rec_name">Name:</string>
+    <string name="log_db_rec_price">Price:</string>
+    <string name="log_db_rec_qty">Qty:</string>
+    <string name="log_db_rec_supplier">Supplier:</string>
+    <string name="log_db_rec_supplier_phone">Supplier Phone:</string>
+</resources>
