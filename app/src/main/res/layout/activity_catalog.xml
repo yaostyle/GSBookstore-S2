@@ -45,8 +45,9 @@
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         android:backgroundTint="@color/colorPrimary"
-        android:scaleType="fitCenter"
+        android:scaleType="center"
         android:src="@drawable/ic_add"
+        android:clickable="true"
         android:tint="@android:color/white"
         app:fabSize="normal" />
 

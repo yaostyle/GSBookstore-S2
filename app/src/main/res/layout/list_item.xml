@@ -58,6 +58,7 @@
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:textAlignment="textEnd"
                 android:textAppearance="?android:textAppearanceMedium"
                 android:text="1" />
         </LinearLayout>
