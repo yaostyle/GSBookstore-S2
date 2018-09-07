@@ -19,6 +19,7 @@
             android:fontFamily="sans-serif-medium"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="#2B3D4D"
+            android:layout_gravity="center_vertical"
             android:layout_weight="3"
             android:text="Book Name"/>
 
@@ -28,23 +29,50 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:layout_weight="1"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#AEB6BD"
+            android:layout_gravity="center_vertical"
+            android:textAlignment="center"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@android:color/holo_green_dark"
             android:text="$0.00"/>
 
-        <TextView
-            android:id="@+id/book_qty"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
             android:layout_weight="1"
-            android:text="Qty: 1"
-            />
+            android:orientation="horizontal">
 
-        <Button
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_qty"
+                android:scaleType="fitCenter"
+                android:tint="@color/colorPrimary"
+                android:scaleY="0.6"
+                android:scaleX="0.6" />
+
+            <TextView
+                android:id="@+id/book_qty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textAlignment="center"
+                android:text="1" />
+        </LinearLayout>
+
+
+        <ImageButton
             android:id="@+id/btn_sale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sale"/>
+            android:src="@drawable/ic_sell"
+            android:tint="@android:color/holo_orange_dark"
+            android:background="@android:color/white"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:scaleX="0.7"
+            android:scaleY="0.7" />
     </LinearLayout>
 
 

@@ -82,13 +82,13 @@ public class BookProvider extends ContentProvider{
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case BOOKS:
-                return insertPet(uri, contentValues);
+                return insertBook(uri, contentValues);
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
     }
 
-    private Uri insertPet(Uri uri, ContentValues values) {
+    private Uri insertBook(Uri uri, ContentValues values) {
 
         String name = values.getAsString(BookContract.BookEntry.COLUMN_PRODUCT_NAME);
         Double price = values.getAsDouble(BookContract.BookEntry.COLUMN_PRICE);
@@ -130,17 +130,17 @@ public class BookProvider extends ContentProvider{
 
         switch (match) {
             case BOOKS:
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                return updateBook(uri, contentValues, selection, selectionArgs);
             case BOOK_ID:
                 selection = BookContract.BookEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                return updateBook(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
     }
 
-    private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         if (values.containsKey(BookContract.BookEntry.COLUMN_PRODUCT_NAME)) {
             String name = values.getAsString(BookContract.BookEntry.COLUMN_PRODUCT_NAME);
             if (name == null) {
