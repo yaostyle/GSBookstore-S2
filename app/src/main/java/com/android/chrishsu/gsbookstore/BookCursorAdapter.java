@@ -23,20 +23,28 @@ public class BookCursorAdapter extends CursorAdapter{
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView nameTextView = view.findViewById(R.id.name);
-        TextView supplierTextView =  view.findViewById(R.id.supplier);
+        TextView nameTextView = view.findViewById(R.id.book_name);
+        TextView priceTextView =  view.findViewById(R.id.book_price);
+        TextView qtyTextView = view.findViewById(R.id.book_qty);
 
         int nameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_PRODUCT_NAME);
-        int supplierColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_SUPPLIER_NAME);
+        int priceColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_PRICE);
+        int qtyColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_QTY);
 
         String bookName = cursor.getString(nameColumnIndex);
-        String bookSupplier = cursor.getString(supplierColumnIndex);
+        String bookPrice = cursor.getString(priceColumnIndex);
+        String bookQty = cursor.getString(qtyColumnIndex);
 
         if (TextUtils.isEmpty(bookName)) {
-            bookSupplier = context.getString(R.string.unknow_supplier);
+            bookName = context.getString(R.string.unknow_book_name);
+        }
+
+        if (Integer.parseInt(bookQty) < 0){
+            bookQty = "0";
         }
 
         nameTextView.setText(bookName);
-        supplierTextView.setText(bookSupplier);
+        priceTextView.setText(bookPrice);
+        qtyTextView.setText(bookQty);
     }
 }

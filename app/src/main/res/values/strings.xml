@@ -29,5 +29,6 @@
     <string name="log_db_rec_supplier">Supplier:</string>
     <string name="log_db_rec_supplier_phone">Supplier Phone:</string>
 
-    <string name="unknow_supplier">Unkown Supplier</string>
+    <string name="unknow_book_name">Unkown</string>
+    <string name="empty_view_title_text">Empty List</string>
 </resources>

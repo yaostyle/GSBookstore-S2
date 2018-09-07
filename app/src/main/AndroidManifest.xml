@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="com.android.chrishsu.gsbookstore"
+            android:name=".data.BookProvider"
+            android:exported="false" />
     </application>
 
 </manifest>

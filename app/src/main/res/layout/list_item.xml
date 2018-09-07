@@ -7,21 +7,45 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="#2B3D4D"
-        android:text="Book Name"/>
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/supplier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="#AEB6BD"
-        android:text="Supplier"/>
+        <TextView
+            android:id="@+id/book_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#2B3D4D"
+            android:layout_weight="3"
+            android:text="Book Name"/>
+
+        <TextView
+            android:id="@+id/book_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:layout_weight="1"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="#AEB6BD"
+            android:text="$0.00"/>
+
+        <TextView
+            android:id="@+id/book_qty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Qty: 1"
+            />
+
+        <Button
+            android:id="@+id/btn_sale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sale"/>
+    </LinearLayout>
+
+
 </LinearLayout>
