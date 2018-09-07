@@ -3,6 +3,7 @@ package com.android.chrishsu.gsbookstore;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,9 @@ public class CatalogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
+
+        // Setup FAB to open Add/EditorActivity
+        FloatingActionButton fab = findViewById(R.id.fab);
 
         // Initialize mDbHlper as BookDbHelper object
         mDbHelper = new BookDbHelper(this);
