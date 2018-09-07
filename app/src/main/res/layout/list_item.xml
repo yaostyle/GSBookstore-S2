@@ -68,7 +68,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_sell"
             android:tint="@android:color/holo_orange_dark"
-            android:background="@android:color/white"
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:scaleX="0.7"

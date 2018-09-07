@@ -157,7 +157,7 @@ public class BookProvider extends ContentProvider{
 
         if (values.containsKey(BookContract.BookEntry.COLUMN_QTY)) {
             Integer qty = values.getAsInteger(BookContract.BookEntry.COLUMN_QTY);
-            if (qty == null || qty <= 0) {
+            if (qty == null || qty < 0) {
                 throw new IllegalArgumentException("This book requires a qty.");
             }
         }

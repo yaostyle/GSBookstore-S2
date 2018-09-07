@@ -62,25 +62,39 @@ public class BookCursorAdapter extends CursorAdapter{
             bookName = context.getString(R.string.unknow_book_name);
         }
 
-        if (Integer.parseInt(bookQty) < 0){
+        if (Integer.parseInt(bookQty) < 0 || bookQty == null){
             bookQty = "0";
         }
 
         sellButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bookQty = String.valueOf(Integer.parseInt(bookQty)-1);
-                Toast.makeText(context, bookName+" sold.", Toast.LENGTH_SHORT).show();
+                if (Integer.parseInt(bookQty) > 0){
+                    bookQty = String.valueOf(Integer.parseInt(bookQty)-1);
 
-                ContentValues values = new ContentValues();
-                values.put(BookContract.BookEntry.COLUMN_PRODUCT_NAME, bookName);
-                values.put(BookContract.BookEntry.COLUMN_PRICE, bookPrice);
-                values.put(BookContract.BookEntry.COLUMN_QTY, bookQty);
-                values.put(BookContract.BookEntry.COLUMN_SUPPLIER_NAME, bookSupplier);
-                values.put(BookContract.BookEntry.COLUMN_SUPPLIER_PHONE, bookSupplierPhone);
+                    Toast.makeText(context, "1 x " + bookName+" sold.",
+                            Toast.LENGTH_SHORT).show();
 
-                int rowsAffected = context.getApplicationContext().getContentResolver().update(BookContract.BookEntry.CONTENT_URI, values, null, null);
-            }
+                    ContentValues values = new ContentValues();
+                    values.put(BookContract.BookEntry.COLUMN_PRODUCT_NAME, bookName);
+                    values.put(BookContract.BookEntry.COLUMN_PRICE, bookPrice);
+                    values.put(BookContract.BookEntry.COLUMN_QTY, bookQty);
+                    values.put(BookContract.BookEntry.COLUMN_SUPPLIER_NAME, bookSupplier);
+                    values.put(BookContract.BookEntry.COLUMN_SUPPLIER_PHONE, bookSupplierPhone);
+
+                    int rowsAffected = context
+                            .getApplicationContext()
+                            .getContentResolver()
+                            .update(BookContract.BookEntry.CONTENT_URI
+                                    , values
+                                    , null
+                                    , null);
+                } else {
+                    Toast.makeText(context, bookName+" has zero qty."
+                            , Toast.LENGTH_SHORT).show();
+                }
+
+       }
         });
 
         nameTextView.setText(bookName);
