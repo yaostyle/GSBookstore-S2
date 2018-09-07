@@ -37,6 +37,9 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         View emptyView = findViewById(R.id.empty_view);
         bookListView.setEmptyView(emptyView);
 
+        mCursorAdapter = new BookCursorAdapter(this, null);
+        bookListView.setAdapter(mCursorAdapter);
+
         getLoaderManager().initLoader(BOOK_LOADER, null, this);
     }
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.android.chrishsu.gsbookstore.data.BookContract;
 
 public class BookCursorAdapter extends CursorAdapter{
+
     public BookCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);
     }
