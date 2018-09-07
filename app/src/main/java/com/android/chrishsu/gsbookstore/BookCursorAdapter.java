@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.chrishsu.gsbookstore.data.BookContract;
+
+import static android.content.ContentValues.TAG;
 
 public class BookCursorAdapter extends CursorAdapter{
     private String bookName;
@@ -32,7 +35,7 @@ public class BookCursorAdapter extends CursorAdapter{
     }
 
     @Override
-    public void bindView(View view, final Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, final Cursor cursor) {
         TextView nameTextView = view.findViewById(R.id.book_name);
         TextView priceTextView =  view.findViewById(R.id.book_price);
         TextView qtyTextView = view.findViewById(R.id.book_qty);
@@ -70,24 +73,24 @@ public class BookCursorAdapter extends CursorAdapter{
             public void onClick(View view) {
                 if (Integer.parseInt(bookQty) > 0){
                     bookQty = String.valueOf(Integer.parseInt(bookQty)-1);
-
+                    Log.d(TAG, "onClick: position: "+String.valueOf(cursor.getPosition()));
                     Toast.makeText(context, "1 x " + bookName+" sold.",
                             Toast.LENGTH_SHORT).show();
 
-                    ContentValues values = new ContentValues();
-                    values.put(BookContract.BookEntry.COLUMN_PRODUCT_NAME, bookName);
-                    values.put(BookContract.BookEntry.COLUMN_PRICE, bookPrice);
-                    values.put(BookContract.BookEntry.COLUMN_QTY, bookQty);
-                    values.put(BookContract.BookEntry.COLUMN_SUPPLIER_NAME, bookSupplier);
-                    values.put(BookContract.BookEntry.COLUMN_SUPPLIER_PHONE, bookSupplierPhone);
-
-                    int rowsAffected = context
-                            .getApplicationContext()
-                            .getContentResolver()
-                            .update(BookContract.BookEntry.CONTENT_URI
-                                    , values
-                                    , null
-                                    , null);
+//                    ContentValues values = new ContentValues();
+//                    values.put(BookContract.BookEntry.COLUMN_PRODUCT_NAME, bookName);
+//                    values.put(BookContract.BookEntry.COLUMN_PRICE, bookPrice);
+//                    values.put(BookContract.BookEntry.COLUMN_QTY, bookQty);
+//                    values.put(BookContract.BookEntry.COLUMN_SUPPLIER_NAME, bookSupplier);
+//                    values.put(BookContract.BookEntry.COLUMN_SUPPLIER_PHONE, bookSupplierPhone);
+//
+//                    int rowsAffected = context
+//                            .getApplicationContext()
+//                            .getContentResolver()
+//                            .update(BookContract.BookEntry.CONTENT_URI
+//                                    , values
+//                                    , null
+//                                    , null);
                 } else {
                     Toast.makeText(context, bookName+" has zero qty."
                             , Toast.LENGTH_SHORT).show();

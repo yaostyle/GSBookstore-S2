@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Layout for a single list item in the list of pets -->
 <LinearLayout
+    android:id="@+id/listview_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,17 +21,16 @@
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@color/colorTextAccent"
             android:layout_gravity="center_vertical"
-            android:layout_weight="3"
+            android:layout_weight="4"
+            android:freezesText="true"
             android:text="Book Name"/>
 
         <TextView
             android:id="@+id/book_price"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:textAlignment="center"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@android:color/holo_green_dark"
             android:text="$0.00"/>
@@ -47,8 +47,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_qty"
-                android:scaleType="fitCenter"
-                android:layout_marginRight="-5dp"
                 android:tint="@color/colorPrimary"
                 android:scaleY="0.6"
                 android:scaleX="0.6" />
@@ -71,6 +69,7 @@
             android:src="@drawable/ic_sell"
             android:tint="@android:color/holo_orange_dark"
             android:layout_gravity="center_vertical"
+            android:layout_marginRight="-8dp"
             android:clickable="true"
             android:scaleX="0.6"
             android:scaleY="0.6" />

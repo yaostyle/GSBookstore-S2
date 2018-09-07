@@ -8,9 +8,11 @@ import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.android.chrishsu.gsbookstore.data.BookContract.BookEntry;
@@ -25,6 +27,7 @@ public class CatalogActivity
     private static final int BOOK_LOADER = 0;
 
     private BookCursorAdapter mCursorAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,13 @@ public class CatalogActivity
         // Connect CursorAdapter to ListView
         mCursorAdapter = new BookCursorAdapter(this, null);
         bookListView.setAdapter(mCursorAdapter);
+
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d(TAG, "onItemClick: bookListView: "+String.valueOf(i));
+            }
+        });
     }
 
     @Override
@@ -102,14 +112,59 @@ public class CatalogActivity
     }
 
     private void insertDummyBooks() {
-        ContentValues values = new ContentValues();
-        values.put(BookEntry.COLUMN_PRODUCT_NAME, "Harry Potter");
-        values.put(BookEntry.COLUMN_PRICE, "35.99");
-        values.put(BookEntry.COLUMN_QTY, "10");
-        values.put(BookEntry.COLUMN_SUPPLIER_NAME, "The Book Worm");
-        values.put(BookEntry.COLUMN_SUPPLIER_PHONE, "800-111-1111");
+        // Insert dummy data only if there are empty db rows;
+        // this is to prevent duplications.
+        if (getCurrentDBRowCounts() == 0) {
+            // Dummy#1
+            ContentValues values = new ContentValues();
+            values.put(BookEntry.COLUMN_PRODUCT_NAME, "Harry Potter (D)");
+            values.put(BookEntry.COLUMN_PRICE, "35.99");
+            values.put(BookEntry.COLUMN_QTY, "10");
+            values.put(BookEntry.COLUMN_SUPPLIER_NAME, "The Book Worm");
+            values.put(BookEntry.COLUMN_SUPPLIER_PHONE, "800-111-1111");
 
-        getContentResolver().insert(BookEntry.CONTENT_URI, values);
+            getContentResolver().insert(BookEntry.CONTENT_URI, values);
+
+            // Dummy#2
+            values = new ContentValues();
+            values.put(BookEntry.COLUMN_PRODUCT_NAME, "Heartland (D)");
+            values.put(BookEntry.COLUMN_PRICE, "6.99");
+            values.put(BookEntry.COLUMN_QTY, "12");
+            values.put(BookEntry.COLUMN_SUPPLIER_NAME, "Amazon Online");
+            values.put(BookEntry.COLUMN_SUPPLIER_PHONE, "800-888-8888");
+
+            getContentResolver().insert(BookEntry.CONTENT_URI, values);
+
+            // Dummy#3
+            values = new ContentValues();
+            values.put(BookEntry.COLUMN_PRODUCT_NAME, "Small Fry (D)");
+            values.put(BookEntry.COLUMN_PRICE, "16.23");
+            values.put(BookEntry.COLUMN_QTY, "8");
+            values.put(BookEntry.COLUMN_SUPPLIER_NAME, "Amazon Bargain");
+            values.put(BookEntry.COLUMN_SUPPLIER_PHONE, "800-333-4444");
+
+            getContentResolver().insert(BookEntry.CONTENT_URI, values);
+        }
+    }
+
+    private int getCurrentDBRowCounts(){
+        String[] projection = {
+                BookEntry._ID,
+                BookEntry.COLUMN_PRODUCT_NAME,
+                BookEntry.COLUMN_PRICE,
+                BookEntry.COLUMN_QTY,
+                BookEntry.COLUMN_SUPPLIER_NAME,
+                BookEntry.COLUMN_SUPPLIER_PHONE,
+        };
+        Cursor countCursor = getContentResolver().query(BookEntry.CONTENT_URI
+                , new String[] {"count(_id) AS count"}
+                , null
+                , null
+                , null);
+
+        countCursor.moveToFirst();
+        return countCursor.getInt(0);
+
     }
 
     private void deleteAllEntries() {
