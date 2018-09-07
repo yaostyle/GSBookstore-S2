@@ -5,23 +5,22 @@ import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.android.chrishsu.gsbookstore.data.BookDbHelper;
 import com.android.chrishsu.gsbookstore.data.BookContract.BookEntry;
 
 // Create main class CatalogActivity
-public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class CatalogActivity
+        extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final String TAG = "CatalogActivity";
 
     private static final int BOOK_LOADER = 0;
 
@@ -68,7 +67,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-            mCursorAdapter.swapCursor(cursor);
+        mCursorAdapter.swapCursor(cursor);
     }
 
     @Override
@@ -88,14 +87,15 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
+
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
                 insertDummyBooks();
-
                 return true;
+
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
-                // Do nothing for now
+                deleteAllEntries();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -109,6 +109,19 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         values.put(BookEntry.COLUMN_SUPPLIER_NAME, "The Book Worm");
         values.put(BookEntry.COLUMN_SUPPLIER_PHONE, "800-111-1111");
 
-        Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
+        getContentResolver().insert(BookEntry.CONTENT_URI, values);
+    }
+
+    private void deleteAllEntries() {
+        int deletedRows = getContentResolver().delete(BookEntry.CONTENT_URI,
+                null,
+                null);
+        if (deletedRows > 0) {
+            Toast.makeText(this,
+                    "Total record(s) removed: "
+                            + String.valueOf(deletedRows),
+                    Toast.LENGTH_SHORT)
+                    .show();
+        }
     }
 }
