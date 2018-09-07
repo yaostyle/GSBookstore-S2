@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="#2B3D4D"
+            android:textColor="@color/colorTextAccent"
             android:layout_gravity="center_vertical"
             android:layout_weight="3"
             android:text="Book Name"/>
@@ -64,7 +64,7 @@
         </LinearLayout>
 
 
-        <ImageButton
+        <ImageView
             android:id="@+id/btn_sale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,9 +72,8 @@
             android:tint="@android:color/holo_orange_dark"
             android:layout_gravity="center_vertical"
             android:clickable="true"
-            android:background="@android:color/transparent"
-            android:scaleX="0.7"
-            android:scaleY="0.7" />
+            android:scaleX="0.6"
+            android:scaleY="0.6" />
     </LinearLayout>
 
 

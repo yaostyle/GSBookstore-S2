@@ -39,11 +39,11 @@ public class CatalogActivity
         View emptyView = findViewById(R.id.empty_view);
         bookListView.setEmptyView(emptyView);
 
+        getLoaderManager().initLoader(BOOK_LOADER, null, this);
+
         // Connect CursorAdapter to ListView
         mCursorAdapter = new BookCursorAdapter(this, null);
         bookListView.setAdapter(mCursorAdapter);
-
-        getLoaderManager().initLoader(BOOK_LOADER, null, this);
     }
 
     @Override
