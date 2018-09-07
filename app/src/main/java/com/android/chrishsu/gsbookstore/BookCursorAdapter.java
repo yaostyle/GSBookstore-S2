@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,11 +15,11 @@ import android.widget.Toast;
 import com.android.chrishsu.gsbookstore.data.BookContract;
 
 public class BookCursorAdapter extends CursorAdapter{
-    String bookName;
-    String bookPrice;
-    String bookQty;
-    String bookSupplier;
-    String bookSupplierPhone;
+    private String bookName;
+    private String bookPrice;
+    private String bookQty;
+    private String bookSupplier;
+    private String bookSupplierPhone;
 
     public BookCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);

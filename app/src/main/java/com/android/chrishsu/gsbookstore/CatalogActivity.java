@@ -24,7 +24,7 @@ public class CatalogActivity
 
     private static final int BOOK_LOADER = 0;
 
-    BookCursorAdapter mCursorAdapter;
+    private BookCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

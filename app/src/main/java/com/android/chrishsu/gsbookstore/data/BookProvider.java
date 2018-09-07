@@ -7,11 +7,12 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 public class BookProvider extends ContentProvider{
 
-    public static final String LOG_TAG = BookProvider.class.getSimpleName();
+    private static final String LOG_TAG = BookProvider.class.getSimpleName();
     private static final int BOOKS = 100;
     private static final int BOOK_ID = 101;
 
@@ -34,7 +35,7 @@ public class BookProvider extends ContentProvider{
     }
 
     @Override
-    public Cursor query(Uri uri,
+    public Cursor query(@NonNull Uri uri,
                         String[] projection,
                         String selection,
                         String[] selectionArgs,
@@ -78,7 +79,7 @@ public class BookProvider extends ContentProvider{
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues contentValues) {
+    public Uri insert(@NonNull Uri uri, ContentValues contentValues) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case BOOKS:
@@ -104,10 +105,6 @@ public class BookProvider extends ContentProvider{
             throw new IllegalArgumentException("This book requires a valid price.");
         }
 
-        if (qty == null || qty <= 0) {
-            qty = 0;
-        }
-
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
         long id = database.insert(BookContract.BookEntry.TABLE_NAME, null, values);
         if (id == -1) {
@@ -121,7 +118,7 @@ public class BookProvider extends ContentProvider{
     }
 
     @Override
-    public int update(Uri uri,
+    public int update(@NonNull Uri uri,
                       ContentValues contentValues,
                       String selection,
                       String[] selectionArgs) {
@@ -168,7 +165,11 @@ public class BookProvider extends ContentProvider{
 
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-        int rowsUpdated = database.update(BookContract.BookEntry.TABLE_NAME, values, selection, selectionArgs);
+        int rowsUpdated = database
+                .update(BookContract.BookEntry.TABLE_NAME
+                        , values
+                        , selection
+                        , selectionArgs);
 
         if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
@@ -178,7 +179,7 @@ public class BookProvider extends ContentProvider{
     }
 
     @Override
-    public int delete(Uri uri,
+    public int delete(@NonNull Uri uri,
                       String selection,
                       String[] selectionArgs) {
 
@@ -189,12 +190,18 @@ public class BookProvider extends ContentProvider{
 
         switch (match) {
             case BOOKS:
-                rowsDeleted = database.delete(BookContract.BookEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database
+                        .delete(BookContract.BookEntry.TABLE_NAME
+                                , selection
+                                , selectionArgs);
                 break;
             case BOOK_ID:
                 selection = BookContract.BookEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                rowsDeleted = database.delete(BookContract.BookEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database
+                        .delete(BookContract.BookEntry.TABLE_NAME
+                                , selection
+                                , selectionArgs);
                 break;
             default:
 
@@ -209,7 +216,7 @@ public class BookProvider extends ContentProvider{
     }
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         final int match = sUriMatcher.match(uri);
 
         switch (match) {
