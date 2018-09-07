@@ -40,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
             android:layout_weight="1"
+            android:layout_marginRight="-15dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -47,22 +48,23 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_qty"
                 android:scaleType="fitCenter"
+                android:layout_marginRight="-5dp"
                 android:tint="@color/colorPrimary"
                 android:scaleY="0.6"
                 android:scaleX="0.6" />
 
             <TextView
                 android:id="@+id/book_qty"
-                android:layout_width="wrap_content"
+                android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textAlignment="center"
+                android:textAlignment="textEnd"
                 android:text="1" />
         </LinearLayout>
 
 
-        <ImageView
+        <ImageButton
             android:id="@+id/btn_sale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,6 +72,7 @@
             android:tint="@android:color/holo_orange_dark"
             android:layout_gravity="center_vertical"
             android:clickable="true"
+            android:background="@android:color/transparent"
             android:scaleX="0.7"
             android:scaleY="0.7" />
     </LinearLayout>

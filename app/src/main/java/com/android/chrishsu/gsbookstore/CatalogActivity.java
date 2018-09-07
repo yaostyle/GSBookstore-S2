@@ -104,7 +104,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     private void insertDummyBooks() {
         ContentValues values = new ContentValues();
         values.put(BookEntry.COLUMN_PRODUCT_NAME, "Harry Potter");
-        values.put(BookEntry.COLUMN_PRICE, "35");
+        values.put(BookEntry.COLUMN_PRICE, "35.99");
         values.put(BookEntry.COLUMN_QTY, "10");
         values.put(BookEntry.COLUMN_SUPPLIER_NAME, "The Book Worm");
         values.put(BookEntry.COLUMN_SUPPLIER_PHONE, "800-111-1111");
