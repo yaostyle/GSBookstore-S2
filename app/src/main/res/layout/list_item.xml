@@ -62,7 +62,7 @@
         </LinearLayout>
 
 
-        <ImageButton
+        <ImageView
             android:id="@+id/btn_sale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

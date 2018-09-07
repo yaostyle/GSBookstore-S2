@@ -17,10 +17,20 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/bookshelfbg"
+            android:scaleType="centerCrop" />
         <TextView
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="380dp"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:background="@drawable/rounded_corner"
+            android:textColor="@android:color/darker_gray"
             android:text="@string/empty_view_title_text"/>
     </RelativeLayout>
 

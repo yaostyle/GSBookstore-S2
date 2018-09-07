@@ -30,7 +30,7 @@
     <string name="log_db_rec_supplier_phone">Supplier Phone:</string>
 
     <string name="unknow_book_name">Unkown</string>
-    <string name="empty_view_title_text">Empty List</string>
+    <string name="empty_view_title_text">Our bookshelf is a bit lonely...</string>
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
     <string name="action_delete_all_entries">Delete All Entries</string>
 </resources>
