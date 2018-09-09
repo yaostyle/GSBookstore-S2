@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Layout for a single list item in the list of pets -->
 <LinearLayout
-    android:id="@+id/listview_parent"
+    android:id="@+id/tag_id"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -56,7 +56,6 @@
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textAlignment="textEnd"
                 android:textAppearance="?android:textAppearanceMedium"
                 android:text="1" />
         </LinearLayout>
