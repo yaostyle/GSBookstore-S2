@@ -1,5 +1,6 @@
 package com.android.chrishsu.gsbookstore;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -75,18 +76,22 @@ public class BookCursorAdapter extends CursorAdapter{
         sellButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Integer.parseInt(bookQty) > 0){
+                String currentBookIdTag = (String) sellButton.getTag(R.id.tag_id);
+                String currentBookQty = (String) sellButton.getTag(R.id.book_qty);
 
-                    String currentBookTag = (String) sellButton.getTag(R.id.tag_id);
-                    String currentBookQty = (String) sellButton.getTag(R.id.book_qty);
+                if (Integer.parseInt(currentBookQty) > 0){
+
+                    Uri currentPetUri = ContentUris
+                            .withAppendedId(BookContract.BookEntry.CONTENT_URI
+                                    , Long.parseLong(currentBookIdTag));
 
                     Log.d(TAG, "***** onClick: This item ID:"
-                            + currentBookTag
+                            + currentBookIdTag
                             +", Qty: "
                             + String.valueOf(currentBookQty));
 
                     TextView currentBookView = view.findViewById(R.id.book_qty);
-                    String currentNewBookQty = String.valueOf(Integer.parseInt(currentBookQty)-1)
+                    String currentNewBookQty = String.valueOf(Integer.parseInt(currentBookQty)-1);
                     currentBookView.setText(currentNewBookQty);
 
                     Log.d(TAG, "onClick: position: "+String.valueOf(cursor.getPosition()));
@@ -103,19 +108,18 @@ public class BookCursorAdapter extends CursorAdapter{
                     int rowsAffected = context
                             .getApplicationContext()
                             .getContentResolver()
-                            .update(BookContract.BookEntry.CONTENT_URI
+                            .update(currentPetUri
                                     , values
-                                    , String[] { BookContract.BookEntry._ID + " = " + currentBookTag}
+                                    , null
                                     , null);
 
+                    changeCursor(cursor);
+                    notifyDataSetChanged();
 
                 } else {
                     Toast.makeText(context, bookName+" has zero qty."
                             , Toast.LENGTH_SHORT).show();
                 }
-
-                changeCursor(cursor);
-                notifyDataSetChanged();
 
        }
         });
