@@ -15,14 +15,13 @@
 
         <TextView
             android:id="@+id/book_name"
-            android:layout_width="wrap_content"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@color/colorTextAccent"
             android:layout_gravity="center_vertical"
             android:layout_weight="4"
-            android:freezesText="true"
             android:text="Book Name"/>
 
         <TextView
@@ -56,6 +55,7 @@
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:textAlignment="center"
                 android:textAppearance="?android:textAppearanceMedium"
                 android:text="1" />
         </LinearLayout>
