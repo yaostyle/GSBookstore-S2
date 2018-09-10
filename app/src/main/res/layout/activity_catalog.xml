@@ -45,7 +45,6 @@
             android:text="Qty" />
 
 
-
         <TextView
             android:id="@+id/book_qty"
             android:layout_width="25dp"
