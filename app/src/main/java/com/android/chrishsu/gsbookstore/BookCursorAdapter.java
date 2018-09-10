@@ -62,8 +62,15 @@ public class BookCursorAdapter extends CursorAdapter{
         bookSupplier = cursor.getString(supplierColumnIndex);
         bookSupplierPhone = cursor.getString(supplierPhoneColIndex);
 
-        sellButton.setTag(R.id.tag_id,cursor.getString(cursor.getColumnIndex(BookContract.BookEntry._ID)));
-        sellButton.setTag(R.id.book_qty, cursor.getString(cursor.getColumnIndex(BookContract.BookEntry.COLUMN_QTY)));
+        sellButton.setTag(R.id.tag_id
+                , cursor.getString(cursor
+                        .getColumnIndex(BookContract.BookEntry._ID)));
+        sellButton.setTag(R.id.book_name
+                , cursor.getString(cursor
+                        .getColumnIndex(BookContract.BookEntry.COLUMN_PRODUCT_NAME)));
+        sellButton.setTag(R.id.book_qty
+                , cursor.getString(cursor
+                        .getColumnIndex(BookContract.BookEntry.COLUMN_QTY)));
 
         if (TextUtils.isEmpty(bookName)) {
             bookName = context.getString(R.string.unknow_book_name);
@@ -77,6 +84,7 @@ public class BookCursorAdapter extends CursorAdapter{
             @Override
             public void onClick(View v) {
                 String currentBookIdTag = (String) sellButton.getTag(R.id.tag_id);
+                String currentBookName = (String) sellButton.getTag(R.id.book_name);
                 String currentBookQty = (String) sellButton.getTag(R.id.book_qty);
 
                 if (Integer.parseInt(currentBookQty) > 0){
@@ -85,25 +93,16 @@ public class BookCursorAdapter extends CursorAdapter{
                             .withAppendedId(BookContract.BookEntry.CONTENT_URI
                                     , Long.parseLong(currentBookIdTag));
 
-                    Log.d(TAG, "***** onClick: This item ID:"
-                            + currentBookIdTag
-                            +", Qty: "
-                            + String.valueOf(currentBookQty));
-
                     TextView currentBookView = view.findViewById(R.id.book_qty);
                     String currentNewBookQty = String.valueOf(Integer.parseInt(currentBookQty)-1);
                     currentBookView.setText(currentNewBookQty);
 
-                    Log.d(TAG, "onClick: position: "+String.valueOf(cursor.getPosition()));
-                    Toast.makeText(context, "1 x " + bookName+" sold.",
+                    Toast.makeText(context, "1 x " + currentBookName+" sold.",
                             Toast.LENGTH_SHORT).show();
 
                     ContentValues values = new ContentValues();
-                    values.put(BookContract.BookEntry.COLUMN_PRODUCT_NAME, bookName);
-                    values.put(BookContract.BookEntry.COLUMN_PRICE, bookPrice);
+                    values.put(BookContract.BookEntry.COLUMN_PRODUCT_NAME, currentBookName);
                     values.put(BookContract.BookEntry.COLUMN_QTY, currentNewBookQty);
-                    values.put(BookContract.BookEntry.COLUMN_SUPPLIER_NAME, bookSupplier);
-                    values.put(BookContract.BookEntry.COLUMN_SUPPLIER_PHONE, bookSupplierPhone);
 
                     int rowsAffected = context
                             .getApplicationContext()
@@ -117,7 +116,7 @@ public class BookCursorAdapter extends CursorAdapter{
                     notifyDataSetChanged();
 
                 } else {
-                    Toast.makeText(context, bookName+" has zero qty."
+                    Toast.makeText(context, currentBookName+" has zero (0) qty."
                             , Toast.LENGTH_SHORT).show();
                 }
 
