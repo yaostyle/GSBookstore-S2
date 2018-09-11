@@ -38,4 +38,7 @@
     <string name="editor_acitivity_titile_edit_book">Edit Book</string>
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
+
+    <string name="editor_insert_book_failed">Failed to create this book.</string>
+    <string name="editor_insert_book_successful">New book created.</string>
 </resources>

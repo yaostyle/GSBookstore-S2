@@ -1,6 +1,7 @@
 package com.android.chrishsu.gsbookstore;
 
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,8 +20,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.android.chrishsu.gsbookstore.data.BookContract;
+
+import org.w3c.dom.Text;
 
 public class EditorActivity
         extends AppCompatActivity
@@ -135,6 +140,7 @@ public class EditorActivity
         switch (item.getItemId()) {
             case R.id.action_save:
                 //TODO Save the book
+                saveBook();
                 finish();
                 return true;
 
@@ -194,5 +200,61 @@ public class EditorActivity
         mQtyEditText.setText("1");
         mSupplierEditText.setText("");
         mSupplierPhoneEditText.setText("");
+    }
+
+    private void saveBook() {
+        // Read the data from inputs
+        String nameString = mNameEditText.getText().toString().trim();
+        String priceString = mPriceEditText.getText().toString().trim();
+        String qtyString = mQtyEditText.getText().toString().trim();
+        String supplierString = mSupplierEditText.getText().toString().trim();
+        String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
+
+        // Double check if it's for new book
+        // If fields are blank, return early
+        if (mCurrentBookUri == null
+                && TextUtils.isEmpty(nameString)
+                && TextUtils.isEmpty(priceString)
+                && TextUtils.isEmpty(qtyString)
+                && TextUtils.isEmpty(supplierString)
+                && TextUtils.isEmpty(supplierPhoneString)) {
+
+            Toast.makeText(this, getString(R.string.editor_insert_book_failed), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Create content value and retrieve data
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(BookContract.BookEntry.COLUMN_PRODUCT_NAME, nameString);
+        contentValues.put(BookContract.BookEntry.COLUMN_PRICE, priceString);
+        contentValues.put(BookContract.BookEntry.COLUMN_QTY, qtyString);
+        contentValues.put(BookContract.BookEntry.COLUMN_SUPPLIER_NAME, supplierString);
+        contentValues.put(BookContract.BookEntry.COLUMN_SUPPLIER_PHONE, supplierPhoneString);
+
+        // Sanitize price & qty fields and filling default values
+        String sanitized_price = "0";
+        if (!TextUtils.isEmpty(priceString)) {
+            sanitized_price = priceString;
+        }
+        contentValues.put(BookContract.BookEntry.COLUMN_PRICE, sanitized_price);
+
+        String sanitized_qty = "0";
+        if (!TextUtils.isEmpty(qtyString)) {
+            sanitized_qty = qtyString;
+        }
+        contentValues.put(BookContract.BookEntry.COLUMN_PRICE, sanitized_qty);
+
+        // Depending Uri, do insert or update the current book data
+        if (mCurrentBookUri == null) {
+            // Creating new book into db
+            Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, contentValues);
+
+            if (newUri == null) {
+                Toast.makeText(this, getString(R.string.editor_insert_book_failed), Toast.LENGTH_SHORT).show();
+            }
+
+        } else {
+            //TODO: Process existing book, update it
+        }
     }
 }
