@@ -37,6 +37,8 @@ public class CatalogActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
 
+        ListView bookListView = findViewById(R.id.book_listview);
+
         // Setup FAB to open Add/EditorActivity
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +69,6 @@ public class CatalogActivity
         getLoaderManager().initLoader(BOOK_LOADER, null, this);
 
         // Setup empty ListView
-        ListView bookListView = findViewById(R.id.book_listview);
         View emptyView = findViewById(R.id.empty_view);
         bookListView.setEmptyView(emptyView);
     }
