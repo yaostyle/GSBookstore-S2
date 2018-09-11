@@ -8,8 +8,16 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.android.chrishsu.gsbookstore.data.BookContract;
 
@@ -30,6 +38,18 @@ public class EditorActivity
     private boolean mBookHasChanged = false;
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        // This is for adding new book
+        if (mCurrentBookUri == null) {
+            MenuItem menuItem = menu.findItem(R.id.action_delete);
+            menuItem.setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
@@ -43,9 +63,46 @@ public class EditorActivity
         if (mCurrentBookUri ==  null) {
             setTitle(getString(R.string.editor_activity_title_new_book));
             invalidateOptionsMenu();
+            Button contactButton = findViewById(R.id.btn_contact_supplier);
+            contactButton.setVisibility(View.INVISIBLE);
         } else {
             setTitle(getString(R.string.editor_acitivity_titile_edit_book));
         }
+
+        // Wire up views
+        mNameEditText = findViewById(R.id.edit_book_name);
+        mPriceEditText = findViewById(R.id.edit_book_price);
+        mQtyEditText = findViewById(R.id.edit_book_qty);
+        mSupplierEditText = findViewById(R.id.edit_book_supplier);
+        mSupplierPhoneEditText = findViewById(R.id.edit_book_supplier_phone);
+
+        // Hide the keyboard initially
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        // Wire up Qty buttons view
+        ImageButton mQtyBtnPlus = findViewById(R.id.edit_book_qty_btn_plus);
+        ImageButton mQtyBtnMinus = findViewById(R.id.edit_book_qty_btn_minus);
+
+        // Logic to add qty when press +/-
+        mQtyBtnPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int currentQty = Integer.parseInt(mQtyEditText.getText().toString());
+                mQtyEditText.setText(String.valueOf(currentQty+1));
+            }
+        });
+
+        mQtyBtnMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int currentQty = Integer.parseInt(mQtyEditText.getText().toString());
+                // Prevent qty number from deduct less than 0
+                if (currentQty > 0) {
+                    mQtyEditText.setText(String.valueOf(currentQty - 1));
+                }
+            }
+        });
+
     }
 
     @Override
@@ -65,6 +122,38 @@ public class EditorActivity
                 null,
                 null,
                 null);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_editor, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                //TODO Save the book
+                finish();
+                return true;
+
+            case R.id.action_delete:
+                //TODO Delete Confirmation Dialog
+                return true;
+
+            case android.R.id.home:
+                if (!mBookHasChanged) {
+                    //Navigate back to parent activity
+                    NavUtils.navigateUpFromSameTask(this);
+                    return true;
+                }
+
+                //TODO: Setup dialog for unsaved changes
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

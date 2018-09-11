@@ -36,4 +36,6 @@
 
     <string name="editor_activity_title_new_book">Create New Book</string>
     <string name="editor_acitivity_titile_edit_book">Edit Book</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
 </resources>
