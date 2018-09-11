@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -53,23 +59,35 @@
             android:layout_weight="2"
             android:orientation="horizontal">
 
-            <Button
-                android:layout_width="wrap_content"
+            <ImageButton
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
-                android:text="-"/>
+                android:tint="@color/colorPrimary"
+                android:scaleY="0.5"
+                android:scaleX="0.5"
+                android:clickable="true"
+                android:contextClickable="true"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/ic_minus"/>
 
             <EditText
                 android:id="@+id/edit_book_qty"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:hint="1"
+                android:text="1"
                 android:textAlignment="center"
                 android:inputType="numberDecimal" />
 
-            <Button
-                android:layout_width="wrap_content"
+            <ImageButton
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
-                android:text="+"/>
+                android:scaleY="0.5"
+                android:scaleX="0.5"
+                android:layout_gravity="center_horizontal"
+                android:tint="@color/colorPrimary"
+                android:clickable="true"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/ic_plus"/>
 
         </LinearLayout>
 
@@ -153,3 +171,5 @@
         android:text="Contact Supplier"/>
 
 </LinearLayout>
+
+</ScrollView>
