@@ -1,10 +1,12 @@
 package com.android.chrishsu.gsbookstore;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,18 +44,21 @@ public class CatalogActivity
         View emptyView = findViewById(R.id.empty_view);
         bookListView.setEmptyView(emptyView);
 
-        getLoaderManager().initLoader(BOOK_LOADER, null, this);
-
         // Connect CursorAdapter to ListView
         mCursorAdapter = new BookCursorAdapter(this, null);
         bookListView.setAdapter(mCursorAdapter);
 
         bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d(TAG, "onItemClick: bookListView: "+String.valueOf(i));
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long longId) {
+
+                Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, longId);
+
+                Log.d(TAG, "onItemClick: currentBookUri : "+String.valueOf(currentBookUri));
             }
         });
+
+        getLoaderManager().initLoader(BOOK_LOADER, null, this);
     }
 
     @Override
