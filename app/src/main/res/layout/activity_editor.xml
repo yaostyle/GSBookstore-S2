@@ -34,6 +34,7 @@
             <EditText
                 android:id="@+id/edit_book_name"
                 style="@style/EditorFieldStyle"
+                android:textAppearance="?android:textAppearanceMedium"
                 android:hint="Enter name of the book"
                 android:inputType="textCapWords" />
 
@@ -60,14 +61,8 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:tint="@color/colorPrimary"
-                android:scaleY="0.5"
-                android:scaleX="0.5"
-                android:clickable="true"
-                android:contextClickable="true"
-                android:backgroundTint="@android:color/transparent"
+                android:id="@+id/edit_book_qty_btn_minus"
+                style="@style/QtyButtonStyle"
                 android:src="@drawable/ic_minus"/>
 
             <EditText
@@ -79,14 +74,8 @@
                 android:inputType="numberDecimal" />
 
             <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:scaleY="0.5"
-                android:scaleX="0.5"
-                android:layout_gravity="center_horizontal"
-                android:tint="@color/colorPrimary"
-                android:clickable="true"
-                android:backgroundTint="@android:color/transparent"
+                android:id="@+id/edit_book_qty_btn_plus"
+                style="@style/QtyButtonStyle"
                 android:src="@drawable/ic_plus"/>
 
         </LinearLayout>
@@ -160,6 +149,10 @@
         </LinearLayout>
 
     </LinearLayout>
+    
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="20dp" />
 
     <Button
         android:id="@+id/btn_contact_supplier"
@@ -168,6 +161,7 @@
         android:background="@color/colorPrimary"
         android:layout_margin="8dp"
         android:textColor="@android:color/white"
+        android:padding="8dp"
         android:text="Contact Supplier"/>
 
 </LinearLayout>
