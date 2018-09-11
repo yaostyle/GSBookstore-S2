@@ -221,7 +221,7 @@ public class EditorActivity
             mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
             mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
             mQtyBtnPlus.setOnTouchListener(mTouchListener);
-            mQtyBtnMinus.setOnClickListener(mTouchListener);
+            mQtyBtnMinus.setOnTouchListener(mTouchListener);
 
         }
     }
