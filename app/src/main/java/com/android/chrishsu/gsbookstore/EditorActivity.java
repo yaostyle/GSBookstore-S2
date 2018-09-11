@@ -226,6 +226,23 @@ public class EditorActivity
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        // If the book never changed, continue
+        if (!mBookHasChanged) {
+            super.onBackPressed();
+            return;
+        }
+
+        DialogInterface.OnClickListener discardButtonClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                finish();
+            }
+        };
+
+        showUnsavedChangesDialog(discardButtonClickListener);
+    }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
@@ -284,7 +301,11 @@ public class EditorActivity
             Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, contentValues);
 
             if (newUri == null) {
+                // Insert fail
                 Toast.makeText(this, getString(R.string.editor_insert_book_failed), Toast.LENGTH_SHORT).show();
+            } else {
+                // Insert successful
+                Toast.makeText(this, getString(R.string.editor_insert_book_successful), Toast.LENGTH_SHORT).show();
             }
 
         } else {
