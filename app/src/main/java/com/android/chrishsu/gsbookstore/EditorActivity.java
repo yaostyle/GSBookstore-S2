@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import com.android.chrishsu.gsbookstore.data.BookContract;
 
-import org.w3c.dom.Text;
 
 public class EditorActivity
         extends AppCompatActivity
@@ -86,6 +85,9 @@ public class EditorActivity
             contactButton.setVisibility(View.INVISIBLE);
         } else {
             setTitle(getString(R.string.editor_acitivity_titile_edit_book));
+
+            // Start loader
+            getLoaderManager().initLoader(EDITOR_LOADER, null, this);
         }
 
         // Wire up views
@@ -153,7 +155,6 @@ public class EditorActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-                //TODO Save the book
                 saveBook();
                 finish();
                 return true;
@@ -301,15 +302,23 @@ public class EditorActivity
             Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, contentValues);
 
             if (newUri == null) {
-                // Insert fail
+                // Show Toast: Insert fail
                 Toast.makeText(this, getString(R.string.editor_insert_book_failed), Toast.LENGTH_SHORT).show();
             } else {
-                // Insert successful
+                // Show Toast: Insert successful
                 Toast.makeText(this, getString(R.string.editor_insert_book_successful), Toast.LENGTH_SHORT).show();
             }
 
         } else {
-            //TODO: Process existing book, update it
+            // Update existing book into db
+            int rowsAffected = getContentResolver().update(mCurrentBookUri, contentValues, null, null);
+
+            // Show toast message for successful or fail
+            if (rowsAffected == 0) {
+                Toast.makeText(this, getString(R.string.editor_insert_book_failed), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.editor_insert_book_successful), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
