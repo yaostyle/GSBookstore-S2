@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,6 +38,7 @@ public class EditorActivity
     private EditText mSupplierPhoneEditText;
     private ImageButton mQtyBtnPlus;
     private ImageButton mQtyBtnMinus;
+    private Button contactButton;
 
     private Uri mCurrentBookUri;
 
@@ -76,29 +76,30 @@ public class EditorActivity
         Intent intent = getIntent();
         mCurrentBookUri = intent.getData();
 
-        // If intent doesn't contain URI, then it's for create new book record
-        // Else, it's using the URI data and edit the book record
-        if (mCurrentBookUri == null) {
-            setTitle(getString(R.string.editor_activity_title_new_book));
-            invalidateOptionsMenu();
-            Button contactButton = findViewById(R.id.btn_contact_supplier);
-            contactButton.setVisibility(View.INVISIBLE);
-        } else {
-            setTitle(getString(R.string.editor_acitivity_titile_edit_book));
-
-            // Start loader
-            getLoaderManager().initLoader(EDITOR_LOADER, null, this);
-        }
-
         // Wire up views
         mNameEditText = findViewById(R.id.edit_book_name);
         mPriceEditText = findViewById(R.id.edit_book_price);
         mQtyEditText = findViewById(R.id.edit_book_qty);
         mSupplierEditText = findViewById(R.id.edit_book_supplier);
         mSupplierPhoneEditText = findViewById(R.id.edit_book_supplier_phone);
+        contactButton = findViewById(R.id.btn_contact_supplier);
+
+        // If intent doesn't contain URI, then it's for create new book record
+        // Else, it's using the URI data and edit the book record
+        if (mCurrentBookUri == null) {
+            setTitle(getString(R.string.editor_activity_title_new_book));
+            invalidateOptionsMenu();
+            contactButton.setVisibility(View.INVISIBLE);
+        } else {
+            setTitle(getString(R.string.editor_acitivity_titile_edit_book));
+            contactButton.setVisibility(View.VISIBLE);
+            // Start loader
+            getLoaderManager().initLoader(EDITOR_LOADER, null, this);
+        }
 
         // Hide the keyboard initially
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        this.getWindow()
+                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         // Wire up Qty buttons view
         mQtyBtnPlus = findViewById(R.id.edit_book_qty_btn_plus);
@@ -123,6 +124,25 @@ public class EditorActivity
                 }
             }
         });
+
+        contactButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String number = mSupplierPhoneEditText.getText().toString().trim();
+                Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+
+                if (!TextUtils.isEmpty(number)) {
+                    dialIntent.setData(Uri.parse("tel:"+number));
+                    startActivity(dialIntent);
+                } else {
+                    Toast.makeText(getApplicationContext()
+                            , getString(R.string.dial_error)
+                            , Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
 
     }
 
