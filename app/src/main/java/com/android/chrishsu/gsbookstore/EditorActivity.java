@@ -1,8 +1,10 @@
 package com.android.chrishsu.gsbookstore;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -14,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -35,12 +38,23 @@ public class EditorActivity
     private EditText mQtyEditText;
     private EditText mSupplierEditText;
     private EditText mSupplierPhoneEditText;
+    private ImageButton mQtyBtnPlus;
+    private ImageButton mQtyBtnMinus;
 
     private Uri mCurrentBookUri;
 
     private static final int EDITOR_LOADER = 1;
 
     private boolean mBookHasChanged = false;
+
+    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            mBookHasChanged = true;
+            return false;
+        }
+    };
+
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -85,8 +99,8 @@ public class EditorActivity
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         // Wire up Qty buttons view
-        ImageButton mQtyBtnPlus = findViewById(R.id.edit_book_qty_btn_plus);
-        ImageButton mQtyBtnMinus = findViewById(R.id.edit_book_qty_btn_minus);
+        mQtyBtnPlus = findViewById(R.id.edit_book_qty_btn_plus);
+        mQtyBtnMinus = findViewById(R.id.edit_book_qty_btn_minus);
 
         // Logic to add qty when press +/-
         mQtyBtnPlus.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +169,16 @@ public class EditorActivity
                     return true;
                 }
 
-                //TODO: Setup dialog for unsaved changes
+                // Setup dialog for unsaved changes
+                DialogInterface.OnClickListener discardButtonClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                    }
+                };
+
+                // Show dialog that notifies of unsaved changes
+                showUnsavedChangesDialog(discardButtonClickListener);
                 return true;
         }
 
@@ -190,8 +213,19 @@ public class EditorActivity
             mQtyEditText.setText(qty);
             mSupplierEditText.setText(suppplier);
             mSupplierPhoneEditText.setText(supplierPhone);
+
+            // Setup OntouchListeners on the fields
+            mNameEditText.setOnTouchListener(mTouchListener);
+            mPriceEditText.setOnTouchListener(mTouchListener);
+            mQtyEditText.setOnTouchListener(mTouchListener);
+            mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
+            mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
+            mQtyBtnPlus.setOnTouchListener(mTouchListener);
+            mQtyBtnMinus.setOnClickListener(mTouchListener);
+
         }
     }
+
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
@@ -256,5 +290,24 @@ public class EditorActivity
         } else {
             //TODO: Process existing book, update it
         }
+    }
+
+    private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener) {
+        // Create alertdialog builder and set the message
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.unsaved_changes_dialog_msg);
+        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
