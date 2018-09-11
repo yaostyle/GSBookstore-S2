@@ -1,41 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="8dp"
     tools:context=".EditorActivity">
 
+    <!-- Name Row -->
     <LinearLayout
+        android:id="@+id/container_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/CategoryLayoutStyle"
         android:orientation="horizontal">
-        
+
         <TextView
             style="@style/CategoryStyle"
-            android:text="Category Overview" />
-        
+            android:text="Title" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:orientation="vertical"
-            android:paddingLeft="4dp">
-            
+            android:orientation="vertical">
+
             <EditText
                 android:id="@+id/edit_book_name"
                 style="@style/EditorFieldStyle"
-                android:hint="Hint: Enter name of the book"
-                android:inputType="textCapWords"/>
+                android:hint="Enter name of the book"
+                android:inputType="textCapWords" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Qty Row -->
+    <LinearLayout
+        android:id="@+id/container_qty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/CategoryLayoutStyle"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="Qty" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"/>
+
+            <EditText
+                android:id="@+id/edit_book_qty"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:hint="1"
+                android:textAlignment="center"
+                android:inputType="numberDecimal" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <!-- Price Row -->
+    <LinearLayout
+        android:id="@+id/container_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/CategoryLayoutStyle"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="Price" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:text="$"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/edit_book_price"
                 style="@style/EditorFieldStyle"
-                android:hint="Hint: Enter price"
-                android:inputType="textCapWords"/>
-            
+                android:hint="10.99"
+                android:inputType="numberDecimal"/>
         </LinearLayout>
-        
     </LinearLayout>
+
+    <!-- Supplier Row -->
+    <LinearLayout
+        android:id="@+id/container_supplier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/CategoryLayoutStyle"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="Supplier" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit_book_supplier"
+                style="@style/EditorFieldStyle"
+                android:hint="Enter name of the supplier"
+                android:inputType="textCapWords" />
+
+            <EditText
+                android:id="@+id/edit_book_supplier_phone"
+                style="@style/EditorFieldStyle"
+                android:hint="Enter supplier's contact#: 8001231111"
+                android:inputType="number" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_contact_supplier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_margin="8dp"
+        android:textColor="@android:color/white"
+        android:text="Contact Supplier"/>
+
 </LinearLayout>

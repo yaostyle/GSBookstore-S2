@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/book_name"
-            android:layout_width="180dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:textAppearance="?android:textAppearanceMedium"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:layout_gravity="center_vertical"
-            android:textAppearance="?android:textAppearanceMedium"
+            android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@android:color/holo_green_dark"
             android:text="$0.00"/>
 
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
             android:layout_weight="1"
-            android:layout_marginRight="-15dp"
+            android:layout_marginRight="-5dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textAlignment="center"
-                android:textAppearance="?android:textAppearanceMedium"
+                android:textAppearance="?android:textAppearanceSmall"
                 android:text="1" />
         </LinearLayout>
 
@@ -70,8 +70,8 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="-8dp"
             android:clickable="true"
-            android:scaleX="0.6"
-            android:scaleY="0.6" />
+            android:scaleX="0.8"
+            android:scaleY="0.8" />
     </LinearLayout>
 
 
