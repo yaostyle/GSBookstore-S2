@@ -4,6 +4,7 @@ import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -38,11 +39,14 @@ public class CatalogActivity
 
         // Setup FAB to open Add/EditorActivity
         FloatingActionButton fab = findViewById(R.id.fab);
-
-        // Setup empty ListView
-        ListView bookListView = findViewById(R.id.book_listview);
-        View emptyView = findViewById(R.id.empty_view);
-        bookListView.setEmptyView(emptyView);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CatalogActivity.this
+                        , EditorActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Connect CursorAdapter to ListView
         mCursorAdapter = new BookCursorAdapter(this, null);
@@ -52,13 +56,20 @@ public class CatalogActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long longId) {
 
+                Intent editIntent = new Intent(CatalogActivity.this, EditorActivity.class);
                 Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, longId);
-
+                editIntent.setData(currentBookUri);
+                startActivity(editIntent);
                 Log.d(TAG, "onItemClick: currentBookUri : "+String.valueOf(currentBookUri));
             }
         });
 
         getLoaderManager().initLoader(BOOK_LOADER, null, this);
+
+        // Setup empty ListView
+        ListView bookListView = findViewById(R.id.book_listview);
+        View emptyView = findViewById(R.id.empty_view);
+        bookListView.setEmptyView(emptyView);
     }
 
     @Override

@@ -33,4 +33,7 @@
     <string name="empty_view_title_text">Hey, I\'m too sleepy to watch your empty bookshelf...</string>
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
     <string name="action_delete_all_entries">Delete All Entries</string>
+
+    <string name="editor_activity_title_new_book">Create New Book</string>
+    <string name="editor_acitivity_titile_edit_book">Edit Book</string>
 </resources>
