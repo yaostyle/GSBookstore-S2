@@ -62,7 +62,7 @@ public class CatalogActivity
                 Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, longId);
                 editIntent.setData(currentBookUri);
                 startActivity(editIntent);
-                Log.d(TAG, "onItemClick: currentBookUri : "+String.valueOf(currentBookUri));
+
             }
         });
 
@@ -135,30 +135,30 @@ public class CatalogActivity
             // Dummy#1
             ContentValues values = new ContentValues();
             values.put(BookEntry.COLUMN_PRODUCT_NAME, "Harry Potter (D)");
-            values.put(BookEntry.COLUMN_PRICE, "35.99");
-            values.put(BookEntry.COLUMN_QTY, "10");
+            values.put(BookEntry.COLUMN_PRICE, 35.99);
+            values.put(BookEntry.COLUMN_QTY, 10);
             values.put(BookEntry.COLUMN_SUPPLIER_NAME, "The Book Worm");
-            values.put(BookEntry.COLUMN_SUPPLIER_PHONE, "800-111-1111");
+            values.put(BookEntry.COLUMN_SUPPLIER_PHONE, "8001112222");
 
             getContentResolver().insert(BookEntry.CONTENT_URI, values);
 
             // Dummy#2
             values = new ContentValues();
             values.put(BookEntry.COLUMN_PRODUCT_NAME, "Heartland (D)");
-            values.put(BookEntry.COLUMN_PRICE, "6.99");
-            values.put(BookEntry.COLUMN_QTY, "12");
+            values.put(BookEntry.COLUMN_PRICE, 6.99);
+            values.put(BookEntry.COLUMN_QTY, 12);
             values.put(BookEntry.COLUMN_SUPPLIER_NAME, "Amazon Online");
-            values.put(BookEntry.COLUMN_SUPPLIER_PHONE, "800-888-8888");
+            values.put(BookEntry.COLUMN_SUPPLIER_PHONE, "8008889999");
 
             getContentResolver().insert(BookEntry.CONTENT_URI, values);
 
             // Dummy#3
             values = new ContentValues();
             values.put(BookEntry.COLUMN_PRODUCT_NAME, "Small Fry (D)");
-            values.put(BookEntry.COLUMN_PRICE, "16.23");
-            values.put(BookEntry.COLUMN_QTY, "8");
+            values.put(BookEntry.COLUMN_PRICE, 16.23);
+            values.put(BookEntry.COLUMN_QTY, 8);
             values.put(BookEntry.COLUMN_SUPPLIER_NAME, "Amazon Bargain");
-            values.put(BookEntry.COLUMN_SUPPLIER_PHONE, "800-333-4444");
+            values.put(BookEntry.COLUMN_SUPPLIER_PHONE, "8003334444");
 
             getContentResolver().insert(BookEntry.CONTENT_URI, values);
         }

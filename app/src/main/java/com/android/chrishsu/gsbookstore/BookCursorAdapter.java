@@ -20,8 +20,8 @@ import com.android.chrishsu.gsbookstore.data.BookContract;
 
 public class BookCursorAdapter extends CursorAdapter{
     private String bookName;
-    private String bookPrice;
-    private String bookQty;
+    private Double bookPrice;
+    private int bookQty;
     private String bookSupplier;
     private String bookSupplierPhone;
 
@@ -54,10 +54,10 @@ public class BookCursorAdapter extends CursorAdapter{
                 .COLUMN_SUPPLIER_PHONE);
 
         bookName = cursor.getString(nameColumnIndex);
-        bookPrice = cursor.getString(priceColumnIndex);
-        bookQty = cursor.getString(qtyColumnIndex);
+        bookPrice = cursor.getDouble(priceColumnIndex);
+        bookQty = cursor.getInt(qtyColumnIndex);
 
-        if (Integer.parseInt(bookQty) == 0) {
+        if (bookQty == 0) {
             sellButton.setImageAlpha(60);
         }
 
@@ -78,8 +78,8 @@ public class BookCursorAdapter extends CursorAdapter{
             bookName = context.getString(R.string.unknow_book_name);
         }
 
-        if (Integer.parseInt(bookQty) < 0 || bookQty == null){
-            bookQty = "0";
+        if (bookQty <= 0){
+            bookQty = 0;
         }
 
         sellButton.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +128,7 @@ public class BookCursorAdapter extends CursorAdapter{
         });
 
         nameTextView.setText(bookName);
-        priceTextView.setText("$" + bookPrice);
-        qtyTextView.setText(bookQty);
+        priceTextView.setText("$" + String.valueOf(bookPrice));
+        qtyTextView.setText(String.valueOf(bookQty));
     }
 }

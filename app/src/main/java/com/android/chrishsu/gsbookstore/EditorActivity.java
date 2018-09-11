@@ -78,7 +78,7 @@ public class EditorActivity
 
         // If intent doesn't contain URI, then it's for create new book record
         // Else, it's using the URI data and edit the book record
-        if (mCurrentBookUri ==  null) {
+        if (mCurrentBookUri == null) {
             setTitle(getString(R.string.editor_activity_title_new_book));
             invalidateOptionsMenu();
             Button contactButton = findViewById(R.id.btn_contact_supplier);
@@ -109,7 +109,7 @@ public class EditorActivity
             @Override
             public void onClick(View view) {
                 int currentQty = Integer.parseInt(mQtyEditText.getText().toString());
-                mQtyEditText.setText(String.valueOf(currentQty+1));
+                mQtyEditText.setText(String.valueOf(currentQty + 1));
             }
         });
 
@@ -160,7 +160,7 @@ public class EditorActivity
                 return true;
 
             case R.id.action_delete:
-                //TODO Delete Confirmation Dialog
+                showDeleteConfirmationDialog();
                 return true;
 
             case android.R.id.home:
@@ -203,15 +203,15 @@ public class EditorActivity
 
             // Getting data from the column indexes
             String name = data.getString(nameColumnIndex);
-            String price = data.getString(priceColumnIndex);
-            String qty = data.getString(qtyColumnIndex);
+            Double price = data.getDouble(priceColumnIndex);
+            int qty = data.getInt(qtyColumnIndex);
             String suppplier = data.getString(supplierColumnIndex);
             String supplierPhone = data.getString(supplierPhoneColumnIndex);
 
             // Set the data to the view
             mNameEditText.setText(name);
-            mPriceEditText.setText(price);
-            mQtyEditText.setText(qty);
+            mPriceEditText.setText(String.valueOf(price));
+            mQtyEditText.setText(String.valueOf(qty));
             mSupplierEditText.setText(suppplier);
             mSupplierPhoneEditText.setText(supplierPhone);
 
@@ -248,7 +248,7 @@ public class EditorActivity
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mNameEditText.setText("");
-        mPriceEditText.setText("0");
+        mPriceEditText.setText("1");
         mQtyEditText.setText("1");
         mSupplierEditText.setText("");
         mSupplierPhoneEditText.setText("");
@@ -275,26 +275,25 @@ public class EditorActivity
             return;
         }
 
+        // Sanitize price & qty fields and filling default values
+        Double sanitized_price = 1.00;
+        if (!TextUtils.isEmpty(priceString)) {
+            sanitized_price = Double.parseDouble(priceString);
+        }
+
+
+        int sanitized_qty = 0;
+        if (!TextUtils.isEmpty(qtyString)) {
+            sanitized_qty = Integer.parseInt(qtyString);
+        }
+
         // Create content value and retrieve data
         ContentValues contentValues = new ContentValues();
         contentValues.put(BookContract.BookEntry.COLUMN_PRODUCT_NAME, nameString);
-        contentValues.put(BookContract.BookEntry.COLUMN_PRICE, priceString);
-        contentValues.put(BookContract.BookEntry.COLUMN_QTY, qtyString);
+        contentValues.put(BookContract.BookEntry.COLUMN_PRICE, sanitized_price);
+        contentValues.put(BookContract.BookEntry.COLUMN_QTY, sanitized_qty);
         contentValues.put(BookContract.BookEntry.COLUMN_SUPPLIER_NAME, supplierString);
         contentValues.put(BookContract.BookEntry.COLUMN_SUPPLIER_PHONE, supplierPhoneString);
-
-        // Sanitize price & qty fields and filling default values
-        String sanitized_price = "0";
-        if (!TextUtils.isEmpty(priceString)) {
-            sanitized_price = priceString;
-        }
-        contentValues.put(BookContract.BookEntry.COLUMN_PRICE, sanitized_price);
-
-        String sanitized_qty = "0";
-        if (!TextUtils.isEmpty(qtyString)) {
-            sanitized_qty = qtyString;
-        }
-        contentValues.put(BookContract.BookEntry.COLUMN_PRICE, sanitized_qty);
 
         // Depending Uri, do insert or update the current book data
         if (mCurrentBookUri == null) {
@@ -303,21 +302,28 @@ public class EditorActivity
 
             if (newUri == null) {
                 // Show Toast: Insert fail
-                Toast.makeText(this, getString(R.string.editor_insert_book_failed), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this
+                        , getString(R.string.editor_insert_book_failed)
+                        , Toast.LENGTH_SHORT).show();
             } else {
                 // Show Toast: Insert successful
-                Toast.makeText(this, getString(R.string.editor_insert_book_successful), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this
+                        , getString(R.string.editor_insert_book_successful)
+                        , Toast.LENGTH_SHORT).show();
             }
 
         } else {
             // Update existing book into db
-            int rowsAffected = getContentResolver().update(mCurrentBookUri, contentValues, null, null);
+            int rowsAffected = getContentResolver().update(mCurrentBookUri
+                    , contentValues
+                    , null
+                    , null);
 
             // Show toast message for successful or fail
             if (rowsAffected == 0) {
-                Toast.makeText(this, getString(R.string.editor_insert_book_failed), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.editor_update_book_failed), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, getString(R.string.editor_insert_book_successful), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.editor_update_book_successful), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -339,5 +345,48 @@ public class EditorActivity
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    private void showDeleteConfirmationDialog() {
+        // Create alertdialog builder and set the message
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Delete" button, so delete the pet.
+                deleteBook();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Cancel" button, so dismiss the dialog
+                // and continue editing the pet.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void deleteBook() {
+        // Ensure there's Uri to confirm deletion
+        if (mCurrentBookUri != null) {
+            int rowsDeleted = getContentResolver().delete(mCurrentBookUri, null, null);
+
+            if (rowsDeleted == 0) {
+                Toast.makeText(this
+                        , getString(R.string.editor_delete_book_failed)
+                        , Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this
+                        , getString(R.string.editor_delete_book_successful)
+                        , Toast.LENGTH_SHORT).show();
+            }
+        }
+        finish();
     }
 }

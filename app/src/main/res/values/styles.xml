@@ -35,11 +35,13 @@
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
     </style>
 
+    <!-- Style for the main Category Layout -->
     <style name="CategoryLayoutStyle">
         <item name="android:layout_margin">8dp</item>
         <item name="android:padding">2dp</item>
     </style>
 
+    <!-- Style for Qty Button -->
     <style name="QtyButtonStyle">
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">55dp</item>
