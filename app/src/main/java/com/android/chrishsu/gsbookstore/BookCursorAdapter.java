@@ -75,6 +75,8 @@ public class BookCursorAdapter extends CursorAdapter {
         // If qty is zero, dim the Sale button
         if (bookQty == 0) {
             sellButton.setImageAlpha(60);
+        } else {
+            sellButton.setImageAlpha(160);
         }
 
         bookSupplier = cursor.getString(supplierColumnIndex);

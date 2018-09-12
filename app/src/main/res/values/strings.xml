@@ -76,8 +76,8 @@
     <string name="dummy_book_3_qty">8</string>
     <string name="dummy_book_3_supplier">Amazon Bargain</string>
     <string name="dummy_book_3_supplier_phone">8003334444</string>
-    <string name="toast_zero_qty">has zero (0) qty.</string>
-    <string name="toast_sold">sold.</string>
+    <string name="toast_zero_qty">\u0020 has zero (0) qty.</string>
+    <string name="toast_sold">\u0020 sold.</string>
     <string name="query_counts">count(_id) AS count</string>
     <string name="delete_total_rec_removed">Total record(s) removed:</string>
     <string name="add_dummy_data_failed">There is data already.</string>
