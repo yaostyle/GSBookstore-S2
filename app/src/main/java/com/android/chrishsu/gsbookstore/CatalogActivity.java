@@ -191,6 +191,11 @@ public class CatalogActivity
                     , getString(R.string.dummy_book_3_supplier_phone));
 
             getContentResolver().insert(BookEntry.CONTENT_URI, values);
+        } else {
+            Toast.makeText(this,
+                    R.string.add_dummy_data_failed,
+                    Toast.LENGTH_SHORT)
+                    .show();
         }
     }
 
@@ -207,7 +212,7 @@ public class CatalogActivity
         };
         // Query the db
         Cursor countCursor = getContentResolver().query(BookEntry.CONTENT_URI
-                , new String[]{"count(_id) AS count"}
+                , new String[]{getString(R.string.query_counts)}
                 , null
                 , null
                 , null);
@@ -227,7 +232,7 @@ public class CatalogActivity
         // If deleted rows are more than zero, it's successful
         if (deletedRows > 0) {
             Toast.makeText(this,
-                    "Total record(s) removed: "
+                    getString(R.string.delete_total_rec_removed)
                             + String.valueOf(deletedRows),
                     Toast.LENGTH_SHORT)
                     .show();

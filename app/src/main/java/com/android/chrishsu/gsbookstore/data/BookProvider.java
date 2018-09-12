@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.android.chrishsu.gsbookstore.R;
+
 // Create a custom ContentProvider
 public class BookProvider extends ContentProvider {
 
@@ -80,7 +82,8 @@ public class BookProvider extends ContentProvider {
                         sortOrder);
                 break;
             default:
-                throw new IllegalArgumentException("Cannot query unknow URI " + uri);
+                throw new IllegalArgumentException(getContext()
+                        .getString(R.string.query_unknown_uri) + uri);
         }
         // Set notification uri on the cursor
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
@@ -98,7 +101,8 @@ public class BookProvider extends ContentProvider {
                 // Single pass to insert function
                 return insertBook(uri, contentValues);
             default:
-                throw new IllegalArgumentException("Insertion is not supported for " + uri);
+                throw new IllegalArgumentException(getContext()
+                        .getString(R.string.query_insert_not_support) + uri);
         }
     }
 
@@ -113,18 +117,18 @@ public class BookProvider extends ContentProvider {
 
         // Check if the name is not null
         if (name == null) {
-            throw new IllegalArgumentException("This book requires a name");
+            throw new IllegalArgumentException(getContext().getString(R.string.cv_book_req_name));
         }
         // Check if price is not zero
         if (price <= 0) {
-            throw new IllegalArgumentException("This book requires a valid price.");
+            throw new IllegalArgumentException(getContext().getString(R.string.cv_book_req_price));
         }
 
         // Insert new book
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
         long id = database.insert(BookContract.BookEntry.TABLE_NAME, null, values);
         if (id == -1) {
-            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            // Fail to insert the row
             return null;
         }
 
@@ -154,7 +158,8 @@ public class BookProvider extends ContentProvider {
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateBook(uri, contentValues, selection, selectionArgs);
             default:
-                throw new IllegalArgumentException("Update is not supported for " + uri);
+                throw new IllegalArgumentException(getContext()
+                        .getString(R.string.cv_update_not_support) + uri);
         }
     }
 
@@ -165,7 +170,8 @@ public class BookProvider extends ContentProvider {
         if (values.containsKey(BookContract.BookEntry.COLUMN_PRODUCT_NAME)) {
             String name = values.getAsString(BookContract.BookEntry.COLUMN_PRODUCT_NAME);
             if (name == null) {
-                throw new IllegalArgumentException("This book requires a name");
+                throw new IllegalArgumentException(getContext()
+                        .getString(R.string.cv_book_req_name));
             }
         }
         // If COLUMN_PRICE is present
@@ -173,7 +179,8 @@ public class BookProvider extends ContentProvider {
         if (values.containsKey(BookContract.BookEntry.COLUMN_PRICE)) {
             Double price = values.getAsDouble(BookContract.BookEntry.COLUMN_PRICE);
             if (price <= 0) {
-                throw new IllegalArgumentException("This book requires valid price.");
+                throw new IllegalArgumentException(getContext()
+                        .getString(R.string.cv_book_req_price));
             }
         }
 
@@ -182,7 +189,8 @@ public class BookProvider extends ContentProvider {
         if (values.containsKey(BookContract.BookEntry.COLUMN_QTY)) {
             Integer qty = values.getAsInteger(BookContract.BookEntry.COLUMN_QTY);
             if (qty == null || qty < 0) {
-                throw new IllegalArgumentException("This book requires a qty.");
+                throw new IllegalArgumentException(getContext()
+                        .getString(R.string.cv_book_req_qty));
             }
         }
 
@@ -241,7 +249,8 @@ public class BookProvider extends ContentProvider {
                                 , selectionArgs);
                 break;
             default:
-                throw new IllegalArgumentException("Deletion is not supported for " + uri);
+                throw new IllegalArgumentException(getContext()
+                        .getString(R.string.cv_del_not_support) + uri);
         }
 
         // If 1 or more rows were deleted, notify the listeners
@@ -264,7 +273,7 @@ public class BookProvider extends ContentProvider {
             case BOOK_ID:
                 return BookContract.BookEntry.CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalStateException("Unknown URI " + uri);
+                throw new IllegalStateException(getContext().getString(R.string.cv_unknow_uri) + uri);
         }
     }
 }

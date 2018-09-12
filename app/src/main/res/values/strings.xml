@@ -76,5 +76,23 @@
     <string name="dummy_book_3_supplier_phone">8003334444</string>
     <string name="toast_zero_qty">has zero (0) qty.</string>
     <string name="toast_sold">sold.</string>
+    <string name="query_counts">count(_id) AS count</string>
+    <string name="delete_total_rec_removed">Total record(s) removed:</string>
+    <string name="add_dummy_data_failed">There is data already.</string>
+    <string name="dial_intent_tel_uri">tel:</string>
+    <string name="def_price_value">1.0</string>
+    <string name="def_qty_value">1</string>
+    <string name="def_name_value" />
+    <string name="def_supplier_value" />
+    <string name="def_supplier_phone_value" />
+    <string name="price_sign">$</string>
+    <string name="query_unknown_uri">Cannot query unknow URI</string>
+    <string name="query_insert_not_support">Insertion is not supported for</string>
+    <string name="cv_book_req_name">This book requires a name</string>
+    <string name="cv_book_req_price">This book requires a valid price.</string>
+    <string name="cv_update_not_support">Update is not supported for</string>
+    <string name="cv_book_req_qty">This book requires a qty.</string>
+    <string name="cv_del_not_support">Deletion is not supported for</string>
+    <string name="cv_unknow_uri">Unknown URI</string>
 
 </resources>

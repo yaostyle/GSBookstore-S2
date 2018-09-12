@@ -149,7 +149,7 @@ public class BookCursorAdapter extends CursorAdapter {
 
         // Update each book's name, price and qty.
         nameTextView.setText(bookName);
-        priceTextView.setText("$" + String.valueOf(bookPrice));
+        priceTextView.setText(context.getString(R.string.price_sign) + String.valueOf(bookPrice));
         qtyTextView.setText(String.valueOf(bookQty));
     }
 }

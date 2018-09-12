@@ -145,7 +145,7 @@ public class EditorActivity
 
                 // If the number is not empty, send the intend
                 if (!TextUtils.isEmpty(number)) {
-                    dialIntent.setData(Uri.parse("tel:" + number));
+                    dialIntent.setData(Uri.parse(getString(R.string.dial_intent_tel_uri) + number));
                     startActivity(dialIntent);
                 } else {
                     // Otherwise, make a Toast message and do nothing
@@ -299,11 +299,11 @@ public class EditorActivity
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         // Reset all fields to default value
-        mNameEditText.setText("");
-        mPriceEditText.setText("1.0");
-        mQtyEditText.setText("1");
-        mSupplierEditText.setText("");
-        mSupplierPhoneEditText.setText("");
+        mNameEditText.setText(R.string.def_name_value);
+        mPriceEditText.setText(R.string.def_price_value);
+        mQtyEditText.setText(R.string.def_qty_value);
+        mSupplierEditText.setText(R.string.def_supplier_value);
+        mSupplierPhoneEditText.setText(R.string.def_supplier_phone_value);
     }
 
     // Save book function
