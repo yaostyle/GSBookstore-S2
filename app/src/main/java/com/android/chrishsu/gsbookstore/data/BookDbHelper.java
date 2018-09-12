@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.android.chrishsu.gsbookstore.data.BookContract.BookEntry;
 
 // Create a BookDbHelper class from SQLiteOpenHelper
-public class BookDbHelper extends SQLiteOpenHelper{
+public class BookDbHelper extends SQLiteOpenHelper {
 
     // Create a variable for database file name
     private static final String DATABASE_NAME = "gsbookstore.db";

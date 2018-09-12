@@ -8,7 +8,8 @@ import android.provider.BaseColumns;
 public final class BookContract {
 
     // Empty constructor
-    private BookContract() {}
+    private BookContract() {
+    }
 
     public static final String CONTENT_AUTHROITY = "com.android.chrishsu.gsbookstore";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHROITY);

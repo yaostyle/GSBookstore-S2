@@ -59,4 +59,22 @@
     <string name="editor_delete_book_successful">The book has deleted.</string>
 
     <string name="dial_error">Error: No valid number supplied.</string>
+    <string name="dummy_book_1_name">Harry Potter (D)</string>
+    <string name="dummy_book_1_price">35.99</string>
+    <string name="dummy_book_1_qty">10</string>
+    <string name="dummy_book_1_supplier">The Book Worm</string>
+    <string name="dummy_book_1_supplier_phone">8001112222</string>
+    <string name="dummy_book_2_name">Heartland (D)</string>
+    <string name="dummy_book_2_price">6.99</string>
+    <string name="dummy_book_2_qty">12</string>
+    <string name="dummy_book_2_supplier">Amazon Online</string>
+    <string name="dummy_book_2_supplier_phone">8008889999</string>
+    <string name="dummy_book_3_name">Small Fry (D)</string>
+    <string name="dummy_book_3_price">16.23</string>
+    <string name="dummy_book_3_qty">8</string>
+    <string name="dummy_book_3_supplier">Amazon Bargain</string>
+    <string name="dummy_book_3_supplier_phone">8003334444</string>
+    <string name="toast_zero_qty">has zero (0) qty.</string>
+    <string name="toast_sold">sold.</string>
+
 </resources>

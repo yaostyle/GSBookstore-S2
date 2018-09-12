@@ -26,11 +26,11 @@ import android.widget.Toast;
 
 import com.android.chrishsu.gsbookstore.data.BookContract;
 
-
 public class EditorActivity
         extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    // Setup vars
     private EditText mNameEditText;
     private EditText mPriceEditText;
     private EditText mQtyEditText;
@@ -46,20 +46,23 @@ public class EditorActivity
 
     private boolean mBookHasChanged = false;
 
+    // Override onTouchListener method to watch text fields
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
+            // If this triggered, change mBookHasChanged to true
             mBookHasChanged = true;
             return false;
         }
     };
 
-
+    // Override onPrepareOptionsMenu to remove delete function
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        // This is for adding new book
+        // This is for adding new book when mCurrentBookUri is null
+        // When adding a new book, we do not need delete function
         if (mCurrentBookUri == null) {
             MenuItem menuItem = menu.findItem(R.id.action_delete);
             menuItem.setVisible(false);
@@ -67,6 +70,7 @@ public class EditorActivity
         return true;
     }
 
+    // Override onCreate method
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,17 +110,21 @@ public class EditorActivity
         mQtyBtnMinus = findViewById(R.id.edit_book_qty_btn_minus);
 
         // Logic to add qty when press +/-
+        // Logic to deduct qty when press plus icon
         mQtyBtnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // When click, add qty by one
                 int currentQty = Integer.parseInt(mQtyEditText.getText().toString());
                 mQtyEditText.setText(String.valueOf(currentQty + 1));
             }
         });
 
+        // Logic to deduct qty when press minus icon
         mQtyBtnMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // When click, deduct qty by one
                 int currentQty = Integer.parseInt(mQtyEditText.getText().toString());
                 // Prevent qty number from deduct less than 0
                 if (currentQty > 0) {
@@ -125,16 +133,22 @@ public class EditorActivity
             }
         });
 
+        // Setup onclickListener for contactbutton to dial the number
         contactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Getting the number value
                 String number = mSupplierPhoneEditText.getText().toString().trim();
+
+                // Setup dial intent
                 Intent dialIntent = new Intent(Intent.ACTION_DIAL);
 
+                // If the number is not empty, send the intend
                 if (!TextUtils.isEmpty(number)) {
-                    dialIntent.setData(Uri.parse("tel:"+number));
+                    dialIntent.setData(Uri.parse("tel:" + number));
                     startActivity(dialIntent);
                 } else {
+                    // Otherwise, make a Toast message and do nothing
                     Toast.makeText(getApplicationContext()
                             , getString(R.string.dial_error)
                             , Toast.LENGTH_SHORT).show();
@@ -146,8 +160,10 @@ public class EditorActivity
 
     }
 
+    // Override onCreateLoader method
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        // Setup projection
         String[] projection = {
                 BookContract.BookEntry._ID,
                 BookContract.BookEntry.COLUMN_PRODUCT_NAME,
@@ -157,6 +173,7 @@ public class EditorActivity
                 BookContract.BookEntry.COLUMN_SUPPLIER_PHONE
         };
 
+        // Return CursorLoader
         return new CursorLoader(this,
                 mCurrentBookUri,
                 projection,
@@ -165,25 +182,32 @@ public class EditorActivity
                 null);
     }
 
+    // Override onCreateOptionsMenu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menus
         getMenuInflater().inflate(R.menu.menu_editor, menu);
         return true;
     }
 
+    // Override onOptionsItemSeledted
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Determined which menu item was selected
         switch (item.getItemId()) {
             case R.id.action_save:
+                // When [save] was clicked, save the book data
                 saveBook();
                 finish();
                 return true;
 
             case R.id.action_delete:
+                // When [delete] was clicked, show the alert dialog first
                 showDeleteConfirmationDialog();
                 return true;
 
             case android.R.id.home:
+                // Check if fields were changed, if not, navigate back to parent activity
                 if (!mBookHasChanged) {
                     //Navigate back to parent activity
                     NavUtils.navigateUpFromSameTask(this);
@@ -191,21 +215,25 @@ public class EditorActivity
                 }
 
                 // Setup dialog for unsaved changes
-                DialogInterface.OnClickListener discardButtonClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        NavUtils.navigateUpFromSameTask(EditorActivity.this);
-                    }
-                };
+                DialogInterface.OnClickListener discardButtonClickListener =
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                            }
+                        };
 
                 // Show dialog that notifies of unsaved changes
                 showUnsavedChangesDialog(discardButtonClickListener);
                 return true;
         }
 
+        // Return OptionsItems
         return super.onOptionsItemSelected(item);
     }
 
+    // Override onLoadFinished
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data.moveToFirst()) {
@@ -247,6 +275,7 @@ public class EditorActivity
         }
     }
 
+    // Override onBackPressed
     @Override
     public void onBackPressed() {
         // If the book never changed, continue
@@ -255,6 +284,7 @@ public class EditorActivity
             return;
         }
 
+        // If something touched, show alert dialog to confirm
         DialogInterface.OnClickListener discardButtonClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
@@ -265,15 +295,18 @@ public class EditorActivity
         showUnsavedChangesDialog(discardButtonClickListener);
     }
 
+    // Override onLoaderReset
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        // Reset all fields to default value
         mNameEditText.setText("");
-        mPriceEditText.setText("1");
+        mPriceEditText.setText("1.0");
         mQtyEditText.setText("1");
         mSupplierEditText.setText("");
         mSupplierPhoneEditText.setText("");
     }
 
+    // Save book function
     private void saveBook() {
         // Read the data from inputs
         String nameString = mNameEditText.getText().toString().trim();
@@ -291,7 +324,10 @@ public class EditorActivity
                 && TextUtils.isEmpty(supplierString)
                 && TextUtils.isEmpty(supplierPhoneString)) {
 
-            Toast.makeText(this, getString(R.string.editor_insert_book_failed), Toast.LENGTH_SHORT).show();
+            // Make a Toast message
+            Toast.makeText(this
+                    , getString(R.string.editor_insert_book_failed)
+                    , Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -300,7 +336,6 @@ public class EditorActivity
         if (!TextUtils.isEmpty(priceString)) {
             sanitized_price = Double.parseDouble(priceString);
         }
-
 
         int sanitized_qty = 0;
         if (!TextUtils.isEmpty(qtyString)) {
@@ -318,7 +353,8 @@ public class EditorActivity
         // Depending Uri, do insert or update the current book data
         if (mCurrentBookUri == null) {
             // Creating new book into db
-            Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, contentValues);
+            Uri newUri = getContentResolver()
+                    .insert(BookContract.BookEntry.CONTENT_URI, contentValues);
 
             if (newUri == null) {
                 // Show Toast: Insert fail
@@ -341,14 +377,20 @@ public class EditorActivity
 
             // Show toast message for successful or fail
             if (rowsAffected == 0) {
-                Toast.makeText(this, getString(R.string.editor_update_book_failed), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this
+                        , getString(R.string.editor_update_book_failed)
+                        , Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, getString(R.string.editor_update_book_successful), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this
+                        , getString(R.string.editor_update_book_successful)
+                        , Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener) {
+    // Function to show alert dialog when unsaved change occurred
+    private void showUnsavedChangesDialog(DialogInterface.OnClickListener
+                                                  discardButtonClickListener) {
         // Create alertdialog builder and set the message
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.unsaved_changes_dialog_msg);
@@ -367,6 +409,7 @@ public class EditorActivity
         alertDialog.show();
     }
 
+    // Function to show alert dialog when delete trigger
     private void showDeleteConfirmationDialog() {
         // Create alertdialog builder and set the message
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -392,16 +435,21 @@ public class EditorActivity
         alertDialog.show();
     }
 
+    // Function to delete a book
     private void deleteBook() {
         // Ensure there's Uri to confirm deletion
         if (mCurrentBookUri != null) {
-            int rowsDeleted = getContentResolver().delete(mCurrentBookUri, null, null);
+            int rowsDeleted = getContentResolver().delete(mCurrentBookUri
+                    , null
+                    , null);
 
+            // If no rows were deleted, make a Toast message indicating it's failed
             if (rowsDeleted == 0) {
                 Toast.makeText(this
                         , getString(R.string.editor_delete_book_failed)
                         , Toast.LENGTH_SHORT).show();
             } else {
+                // Othersie, make a Toast message indicating it's successful
                 Toast.makeText(this
                         , getString(R.string.editor_delete_book_successful)
                         , Toast.LENGTH_SHORT).show();
