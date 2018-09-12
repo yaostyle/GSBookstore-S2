@@ -157,10 +157,18 @@
         </LinearLayout>
 
     </LinearLayout>
-    
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/darker_gray"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textAlignment="center"
+        android:text="@string/editor_all_fields_are_requied"/>
+
     <Space
         android:layout_width="wrap_content"
-        android:layout_height="20dp" />
+        android:layout_height="10dp" />
 
     <Button
         android:id="@+id/btn_contact_supplier"

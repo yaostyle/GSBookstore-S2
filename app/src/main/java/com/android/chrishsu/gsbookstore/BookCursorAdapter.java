@@ -24,6 +24,13 @@ public class BookCursorAdapter extends CursorAdapter {
     private int bookQty;
     private String bookSupplier;
     private String bookSupplierPhone;
+    
+    // View holder
+    static class ViewHolder {
+        TextView name;
+        TextView price;
+        TextView qty;
+    }
 
     // Constructor
     public BookCursorAdapter(Context context, Cursor c) {
@@ -41,10 +48,12 @@ public class BookCursorAdapter extends CursorAdapter {
     // Override bindView method
     @Override
     public void bindView(final View view, final Context context, final Cursor cursor) {
-        // Wire up vars & views
-        TextView nameTextView = view.findViewById(R.id.book_name);
-        TextView priceTextView = view.findViewById(R.id.book_price);
-        TextView qtyTextView = view.findViewById(R.id.book_qty);
+        // Wire up vars & views in ViewHolder
+        ViewHolder holder = new ViewHolder();
+        
+        holder.name = view.findViewById(R.id.book_name);
+        holder.price = view.findViewById(R.id.book_price);
+        holder.qty = view.findViewById(R.id.book_qty);
         final ImageView sellButton = view.findViewById(R.id.btn_sale);
 
         // Getting column indexes
@@ -148,8 +157,8 @@ public class BookCursorAdapter extends CursorAdapter {
         });
 
         // Update each book's name, price and qty.
-        nameTextView.setText(bookName);
-        priceTextView.setText(context.getString(R.string.price_sign) + String.valueOf(bookPrice));
-        qtyTextView.setText(String.valueOf(bookQty));
+        holder.name.setText(bookName);
+        holder.price.setText(context.getString(R.string.price_sign) + String.valueOf(bookPrice));
+        holder.qty.setText(String.valueOf(bookQty));
     }
 }

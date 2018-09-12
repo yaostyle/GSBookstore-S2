@@ -42,6 +42,8 @@
     <string name="editor_insert_book_failed">Failed to create this book.</string>
     <string name="editor_insert_book_successful">New book created.</string>
 
+    <string name="editor_all_fields_required">All fields are required!</string>
+
     <string name="editor_update_book_failed">Failed to update this book.</string>
     <string name="editor_update_book_successful">The book has updated.</string>
 
@@ -94,5 +96,6 @@
     <string name="cv_book_req_qty">This book requires a qty.</string>
     <string name="cv_del_not_support">Deletion is not supported for</string>
     <string name="cv_unknow_uri">Unknown URI</string>
+    <string name="editor_all_fields_are_requied">(* All fields are required.)</string>
 
 </resources>

@@ -198,7 +198,6 @@ public class EditorActivity
             case R.id.action_save:
                 // When [save] was clicked, save the book data
                 saveBook();
-                finish();
                 return true;
 
             case R.id.action_delete:
@@ -308,6 +307,7 @@ public class EditorActivity
 
     // Save book function
     private void saveBook() {
+
         // Read the data from inputs
         String nameString = mNameEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
@@ -315,75 +315,78 @@ public class EditorActivity
         String supplierString = mSupplierEditText.getText().toString().trim();
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
 
-        // Double check if it's for new book
-        // If fields are blank, return early
-        if (mCurrentBookUri == null
-                && TextUtils.isEmpty(nameString)
-                && TextUtils.isEmpty(priceString)
-                && TextUtils.isEmpty(qtyString)
-                && TextUtils.isEmpty(supplierString)
-                && TextUtils.isEmpty(supplierPhoneString)) {
+        // In either add new or edit mode:
+        // If fields are blank, promopt user to enter all fields
+        if (TextUtils.isEmpty(nameString)
+                || TextUtils.isEmpty(priceString)
+                || TextUtils.isEmpty(qtyString)
+                || TextUtils.isEmpty(supplierString)
+                || TextUtils.isEmpty(supplierPhoneString)
+                ) {
 
             // Make a Toast message
             Toast.makeText(this
-                    , getString(R.string.editor_insert_book_failed)
+                    , getString(R.string.editor_all_fields_required)
                     , Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Sanitize price & qty fields and filling default values
-        Double sanitized_price = 1.00;
-        if (!TextUtils.isEmpty(priceString)) {
-            sanitized_price = Double.parseDouble(priceString);
-        }
-
-        int sanitized_qty = 0;
-        if (!TextUtils.isEmpty(qtyString)) {
-            sanitized_qty = Integer.parseInt(qtyString);
-        }
-
-        // Create content value and retrieve data
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(BookContract.BookEntry.COLUMN_PRODUCT_NAME, nameString);
-        contentValues.put(BookContract.BookEntry.COLUMN_PRICE, sanitized_price);
-        contentValues.put(BookContract.BookEntry.COLUMN_QTY, sanitized_qty);
-        contentValues.put(BookContract.BookEntry.COLUMN_SUPPLIER_NAME, supplierString);
-        contentValues.put(BookContract.BookEntry.COLUMN_SUPPLIER_PHONE, supplierPhoneString);
-
-        // Depending Uri, do insert or update the current book data
-        if (mCurrentBookUri == null) {
-            // Creating new book into db
-            Uri newUri = getContentResolver()
-                    .insert(BookContract.BookEntry.CONTENT_URI, contentValues);
-
-            if (newUri == null) {
-                // Show Toast: Insert fail
-                Toast.makeText(this
-                        , getString(R.string.editor_insert_book_failed)
-                        , Toast.LENGTH_SHORT).show();
-            } else {
-                // Show Toast: Insert successful
-                Toast.makeText(this
-                        , getString(R.string.editor_insert_book_successful)
-                        , Toast.LENGTH_SHORT).show();
-            }
 
         } else {
-            // Update existing book into db
-            int rowsAffected = getContentResolver().update(mCurrentBookUri
-                    , contentValues
-                    , null
-                    , null);
 
-            // Show toast message for successful or fail
-            if (rowsAffected == 0) {
-                Toast.makeText(this
-                        , getString(R.string.editor_update_book_failed)
-                        , Toast.LENGTH_SHORT).show();
+            // Sanitize price & qty fields and filling default values
+            Double sanitized_price = 1.00;
+            if (!TextUtils.isEmpty(priceString)) {
+                sanitized_price = Double.parseDouble(priceString);
+            }
+
+            int sanitized_qty = 0;
+            if (!TextUtils.isEmpty(qtyString)) {
+                sanitized_qty = Integer.parseInt(qtyString);
+            }
+
+            // Create content value and retrieve data
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(BookContract.BookEntry.COLUMN_PRODUCT_NAME, nameString);
+            contentValues.put(BookContract.BookEntry.COLUMN_PRICE, sanitized_price);
+            contentValues.put(BookContract.BookEntry.COLUMN_QTY, sanitized_qty);
+            contentValues.put(BookContract.BookEntry.COLUMN_SUPPLIER_NAME, supplierString);
+            contentValues.put(BookContract.BookEntry.COLUMN_SUPPLIER_PHONE, supplierPhoneString);
+
+            // Depending Uri, do insert or update the current book data
+            if (mCurrentBookUri == null) {
+                // Creating new book into db
+                Uri newUri = getContentResolver()
+                        .insert(BookContract.BookEntry.CONTENT_URI, contentValues);
+
+                if (newUri == null) {
+                    // Show Toast: Insert fail
+                    Toast.makeText(this
+                            , getString(R.string.editor_insert_book_failed)
+                            , Toast.LENGTH_SHORT).show();
+                } else {
+                    // Show Toast: Insert successful
+                    Toast.makeText(this
+                            , getString(R.string.editor_insert_book_successful)
+                            , Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
             } else {
-                Toast.makeText(this
-                        , getString(R.string.editor_update_book_successful)
-                        , Toast.LENGTH_SHORT).show();
+                // Update existing book into db
+                int rowsAffected = getContentResolver().update(mCurrentBookUri
+                        , contentValues
+                        , null
+                        , null);
+
+                // Show toast message for successful or fail
+                if (rowsAffected == 0) {
+                    Toast.makeText(this
+                            , getString(R.string.editor_update_book_failed)
+                            , Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this
+                            , getString(R.string.editor_update_book_successful)
+                            , Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         }
     }

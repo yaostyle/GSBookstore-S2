@@ -48,6 +48,7 @@ public class CatalogActivity
                 // Create new intent and send to EditorActivity
                 Intent intent = new Intent(CatalogActivity.this
                         , EditorActivity.class);
+
                 startActivity(intent);
             }
         });
