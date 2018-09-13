@@ -47,7 +47,7 @@
     <string name="editor_update_book_failed">Failed to update this book.</string>
     <string name="editor_update_book_successful">The book has updated.</string>
 
-    <string name="unsaved_changes_dialog_msg">Discard you changes?</string>
+    <string name="unsaved_changes_dialog_msg">Discard your changes?</string>
 
     <string name="discard">Discard</string>
     <string name="keep_editing">Keep Editing</string>
